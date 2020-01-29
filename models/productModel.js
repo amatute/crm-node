@@ -18,6 +18,10 @@ const productSchema = new mongoose.Schema(
       ]
       // validate: [validator.isAlpha, 'Tour name must only contain characters']
     },
+    description: {
+      type: String,
+      trim: true
+    },
     slug: String,
     price: {
       type: Number,
@@ -32,14 +36,6 @@ const productSchema = new mongoose.Schema(
         },
         message: 'Discount price ({VALUE}) should be below regular price'
       }
-    },
-    description: {
-      type: String,
-      trim: true
-    },
-    imageCover: {
-      type: String,
-      required: [true, 'A tour must have a cover image']
     },
     images: [String],
     createdAt: {
@@ -61,7 +57,6 @@ productSchema.pre('save', function(next) {
 });
 
 // QUERY MIDDLEWARE
-
 productSchema.post(/^find/, function(docs, next) {
   console.log(`Query took ${Date.now() - this.start} milliseconds!`);
   next();
