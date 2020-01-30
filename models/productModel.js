@@ -12,13 +12,22 @@ const productSchema = new mongoose.Schema(
         100,
         'A product name must have less or equal then 100 characters'
       ],
-      minlength: [
-        10,
-        'A product name must have more or equal then 10 characters'
-      ]
-      // validate: [validator.isAlpha, 'Tour name must only contain characters']
+      minlength: [5, 'A product name must have more or equal then 5 characters']
     },
     description: {
+      type: String,
+      trim: true
+    },
+    category: {
+      type: String,
+      trim: true,
+      require: [true, 'A product must have a category'],
+      enum: {
+        values: ['Galletas', 'Panes', 'Pasteles'],
+        message: 'Castegorias: Galletas, Panes o Pasteles.'
+      }
+    },
+    package: {
       type: String,
       trim: true
     },
@@ -37,6 +46,11 @@ const productSchema = new mongoose.Schema(
         message: 'Discount price ({VALUE}) should be below regular price'
       }
     },
+    weight: {
+      type: Number,
+      default: 0
+    },
+    imageCover: String,
     images: [String],
     createdAt: {
       type: Date,
@@ -57,8 +71,13 @@ productSchema.pre('save', function(next) {
 });
 
 // QUERY MIDDLEWARE
+productSchema.pre(/^find/, function(next) {
+  this.start = Date.now();
+  next();
+});
+
 productSchema.post(/^find/, function(docs, next) {
-  console.log(`Query took ${Date.now() - this.start} milliseconds!`);
+  console.log(`Query took ${Date.now() - this.start} milliseconds ⏲`);
   next();
 });
 

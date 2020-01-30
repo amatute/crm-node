@@ -3,7 +3,7 @@ const productController = require('./../controllers/productController');
 
 const router = express.Router();
 
-// router.param('id', tourController.checkID);
+router.route('/product-stats').get(productController.getProductStats);
 
 router
   .route('/')
