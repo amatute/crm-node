@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+//const validator = require('validator');
 
 const productSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'A product must have a name'],
+      required: [true, 'A product must have a name.'],
       unique: true,
       trim: true,
       maxlength: [
@@ -21,10 +22,10 @@ const productSchema = new mongoose.Schema(
     category: {
       type: String,
       trim: true,
-      require: [true, 'A product must have a category'],
+      require: [true, 'A product must have a category.'],
       enum: {
         values: ['Galletas', 'Panes', 'Pasteles'],
-        message: 'Castegorias: Galletas, Panes o Pasteles.'
+        message: 'Categorias permitidas: Galletas, Panes o Pasteles.'
       }
     },
     package: {
